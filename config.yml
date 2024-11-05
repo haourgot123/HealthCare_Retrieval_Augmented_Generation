@@ -1,0 +1,13 @@
+llm_groq:
+  model: 'llama3-70B-8192'
+  api_key: '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'
+
+qdrant:
+  url: 'https://618dc965-c6d2-4c3b-93bd-26050204f910.us-east4-0.gcp.cloud.qdrant.io:6333'
+  api_key: 'AVW6PnZn-3ld6bw33exaLaohJd8JymLDne4Mk4nIE298dhtB_XS5hQ'
+  collection_name: 'scifact'
+  dense_embedding: 'sentence-transformers/all-MiniLM-L6-v2'
+  sparse_embedding: 'Qdrant/bm25'
+  late_interaction_embedding: 'colbert-ir/colbertv2.0'
+  batch_size: 4
+  thresh_score: 0.6
