@@ -64,9 +64,10 @@ class QdrantVectorDatabase:
             sparse_vectors_config=sparse_vectors_config
         )
         for batch in tqdm.tqdm(batch_creater(self.dataset, self.batch_size), total= len(self.dataset) // self.batch_size):
-            dense_embeddings = list(dense_embedding_model.passage_embed(batch['text']))
-            bm25_embeddings = list(sparse_embdding_model.passage_embed(batch['text']))
-            late_interaction_embeddings = list(late_interaction_embedding.passage_embed(batch['text']))
+            texts = [item['text'] for item in next(batch)]
+            dense_embeddings = list(dense_embedding_model.passage_embed(texts))
+            bm25_embeddings = list(sparse_embdding_model.passage_embed(texts))
+            late_interaction_embeddings = list(late_interaction_embedding.passage_embed(texts))
 
             client.upload_points(
                 collection_name=CONFIG['qdrant']['collection_name'],
