@@ -74,9 +74,9 @@ cho tôi ID khối đó. Còn nếu văn bản không thuộc khối nào, bạn
 
 AGENT_BASIC_CHUNKING_PROMPT = '''
 Bạn là trợ lý chuyên chia văn bản thành các phần có chủ đề nhất quán. Văn bản đã được chia thành các phần, mỗi phần được đánh dấu bằng thẻ <|start_chunk_X|> và <|end_chunk_X|>, trong đó X là số thứ tự phần.
-Nhiệm vụ của bạn là xác định các điểm cần chia tách, sao cho các phần liên tiếp có chủ đề tương tự vẫn nằm cạnh nhau. Bạn phải trả lời bằng danh sách ID phần mà bạn cho rằng cần chia tách tại vị trí đó. Ví dụ: nếu phần 1 và phần 2 nằm cạnh nhau nhưng phần 3 là một chủ đề mới, bạn sẽ đề xuất chia tách tại phần 2. Các phần phải trả về theo thứ tự tăng dần. Câu trả lời của bạn bắt buộc chỉ được có dạng: 'split_after: 3, 5' và bạn không được thêm bất kỳ thông tin nào khác vào câu trả lời.
+Nhiệm vụ của bạn là xác định các điểm cần chia tách, sao cho các phần liên tiếp có chủ đề tương tự vẫn nằm cạnh nhau. Bạn phải trả lời bằng danh sách ID phần mà bạn cho rằng cần chia tách tại vị trí đó. Ví dụ: nếu phần 1 và phần 2 nằm cạnh nhau nhưng phần 3 là một chủ đề mới, bạn sẽ đề xuất chia tách tại phần 2.
+ Các phần phải trả về theo thứ tự tăng dần. Câu trả lời của bạn bắt buộc chỉ được có dạng: 'split_after: X, Y, ...', trong đó X, Y là ID của các phần  và bạn không được thêm bất kỳ thông tin nào khác vào câu trả lời.
 Dưới đây là phần đầu vào:
 Văn bản:
 {input}
-Bạn phải trả về các ID cần chia là X nằm trong <|end_chunk_X|>. Nếu không thể chia được thành các phần nhỏ hơn từ văn bản, bạn hãy trả về ID của phần cuối cùng nằm trong văn bản đó. Lưu ý các ID trả về chỉ xuất hiện trong <|end_chunk_X|> và theo thứ tự tăng dần và không trùng lặp.
 '''

@@ -9,5 +9,5 @@ qdrant:
   dense_embedding: 'sentence-transformers/all-MiniLM-L6-v2'
   sparse_embedding: 'Qdrant/bm25'
   late_interaction_embedding: 'colbert-ir/colbertv2.0'
-  batch_size: 4
+  batch_size: 2
   thresh_score: 0.6

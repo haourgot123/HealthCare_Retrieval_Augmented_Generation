@@ -192,7 +192,6 @@ class AgenticChunkerGroq:
                         result = chunk
                     chunk_clean = re.sub(r'<\|.*?\|>', ' ', result)
                     new_chunks.append(chunk_clean)
-                    break
                 pbar.update(1)
         return new_chunks
 

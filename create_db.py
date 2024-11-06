@@ -64,7 +64,9 @@ class QdrantVectorDatabase:
             sparse_vectors_config=sparse_vectors_config
         )
         for batch in tqdm.tqdm(batch_creater(self.dataset, self.batch_size), total= len(self.dataset) // self.batch_size):
-            texts = [item['text'] for item in next(batch)]
+            texts = [item['text'] for item in batch]
+            titles = [item['title'] for item in batch]
+            ids = [str(item['id']) for item in batch]
             dense_embeddings = list(dense_embedding_model.passage_embed(texts))
             bm25_embeddings = list(sparse_embdding_model.passage_embed(texts))
             late_interaction_embeddings = list(late_interaction_embedding.passage_embed(texts))
@@ -73,19 +75,19 @@ class QdrantVectorDatabase:
                 collection_name=CONFIG['qdrant']['collection_name'],
                 points = [
                     models.PointStruct(
-                        id = int(batch['id'][i]),
+                        id = int(ids[i]),
                         vector = {
                             "all-MiniLM-L6-v2": dense_embeddings[i].tolist(),
                             "bm25": bm25_embeddings[i].as_object(),
                             "colbertv2.0": late_interaction_embeddings[i].tolist(),
                         },
                         payload={
-                            'id': batch['id'][i],
-                            'title': batch['title'][i],
-                            'text': batch['text'][i]
+                            'id': ids[i],
+                            'title': titles[i],
+                            'text': texts[i]
                         }
                     )
-                    for i, _ in enumerate(batch['id'])
+                    for i in range(len(ids))
                 ],
                 batch_size= self.batch_size
             )
