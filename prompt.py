@@ -1,3 +1,10 @@
+from langchain.schema import SystemMessage
+from langchain.prompts import (
+    ChatPromptTemplate,
+    HumanMessagePromptTemplate,
+    MessagesPlaceholder
+)
+
 AGENT_SUMMARY_CHUNK_PROMPT = '''
 Bạn là một chatbot hữu ích, có khả năng giúp đỡ con người trong các
 tác vụ về tóm tắt và tổng hợp các thông tin có ích của các đoạn văn bản sao cho phù
@@ -80,3 +87,24 @@ Dưới đây là phần đầu vào:
 Văn bản:
 {input}
 '''
+LLM_QUERY_PROMPT = [
+    SystemMessage(
+        content = ''''
+        Bạn là một chatbot hữu ích có khả năng tư vấn sức khoẻ tâm lý cho con người. Nhiệm vụ của bạn là dựa vào các thông tin tài liệu 
+        đã được cung cấp sẵn ở dưới đây để đưa ra câu trả lời cho người dùng. Bạn chỉ được phép trả lời dựa vào các thông tin đã được cung cấp sẵn dựa vào để tổng hợp thông tin và chọn những thông tin quan trong để viết câu trả lời.
+        nếu không biết hãy trả lời không biết một cách thật khéo léo. Dưới đây là phần văn bản liên quan bạn có thể sử dụng để trả lời câu hỏi:
+        {context}
+        Lưu ý rằng bạn chỉ có thể sử dụng Tiếng Việt để trả lời câu hỏi.
+        '''
+    ),
+    MessagesPlaceholder(
+        variable_name="chat_history"
+    ),
+    HumanMessagePromptTemplate.from_template(
+        ''' {humman_input}
+        Hãy trả lời câu hỏi trên đây bằng các dữ liệu đã được cho trước. Nếu câu hỏi của tôi không liên quan đến các thông tin được cho hoặc
+        không có thông tin hãy trả lời không biết điều đó một cách khéo léo.
+        '''
+
+    )
+]
